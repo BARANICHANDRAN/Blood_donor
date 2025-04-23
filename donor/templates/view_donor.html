@@ -18,12 +18,25 @@
                 </option>
             {% endfor %}
         </select>
+        <label for="city">Search by City:</label>
+        <select name="city" id="city">
+            <option value="">--Select--</option>
+            {% for city in cities %}
+                <option value="{{ city.city }}" {% if request.GET.city == city.city %}selected{% endif %}>
+                    {{ city.city }}
+                </option>
+            {% endfor %}
+        </select>
         <button type="submit">Filter</button>
-        <a href="{% url 'donor_list' %}">
+        <a href="{% url 'view_donor' %}">
             <button type="button">Reset Filters</button>
         </a>
     </form>
 
+    <br>
+    <a href="tel:+9196295114"><button>Contact Blood Bank</button></a>
+    <br>
+    <br>
     <ul style="display: flex; flex-wrap: wrap;;">
         {% for donor in donors %}
         <div class="card" style="width: 18rem;margin: 10px; padding: 10px;">
@@ -40,7 +53,9 @@
             <li>No donors found.</li>
         {% endfor %}
     </ul>
-
+    <br>
+    <a href="/">Home</a>
+    <br>
     <br>
     <a href="/add/">Add Donor</a>
     <br>
