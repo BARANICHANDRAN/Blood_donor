@@ -3,6 +3,10 @@ from .forms import DonorForm
 from .models import Donor
 from django.db import models
 
+
+def index(request):
+    return render(request, 'index.html')
+
 def add_donor(request):
     if request.method == 'POST':
         form = DonorForm(request.POST)
@@ -14,16 +18,45 @@ def add_donor(request):
     return render(request, 'add_donor.html', {'form': form})
 
 def donor_list(request):
-    blood_groups = Donor.objects.values('blood_group').distinct()
-    blood_group_filter = request.GET.get('blood_group', '')
     donors = Donor.objects.all()
-    if blood_group_filter:
-        donors = donors.filter(blood_group=blood_group_filter)
-    
-    return render(request, 'donor_list.html', {
+
+    blood_group = request.GET.get('blood_group')
+    city = request.GET.get('city')
+
+    if blood_group:
+        donors = donors.filter(blood_group=blood_group)
+    if city:
+        donors = donors.filter(city=city)
+
+    blood_groups = Donor.objects.values('blood_group').distinct()
+    cities = Donor.objects.values('city').distinct()
+
+    context = {
         'donors': donors,
-        'blood_groups': blood_groups
-    })
+        'blood_groups': blood_groups,
+        'cities': cities,
+    }
+    return render(request, 'donor_list.html', context)
+def view_donor(request):
+    donors = Donor.objects.all()
+
+    blood_group = request.GET.get('blood_group')
+    city = request.GET.get('city')
+
+    if blood_group:
+        donors = donors.filter(blood_group=blood_group)
+    if city:
+        donors = donors.filter(city=city)
+
+    blood_groups = Donor.objects.values('blood_group').distinct()
+    cities = Donor.objects.values('city').distinct()
+
+    context = {
+        'donors': donors,
+        'blood_groups': blood_groups,
+        'cities': cities,
+    }
+    return render(request, 'view_donor.html', context)
 def edit_donor(request, contact):
     donor = get_object_or_404(Donor, contact=contact)  
 
