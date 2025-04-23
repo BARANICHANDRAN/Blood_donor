@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-dlsghw*u_dncp&i9v!)4ieq2n)05!xomql@u6j78z%qwg4le7u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'blood-donor1.onrender.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -123,3 +123,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
