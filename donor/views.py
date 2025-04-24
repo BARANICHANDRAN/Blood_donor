@@ -18,25 +18,16 @@ def add_donor(request):
     return render(request, 'add_donor.html', {'form': form})
 
 def donor_list(request):
-    donors = Donor.objects.all()
-
-    blood_group = request.GET.get('blood_group')
-    city = request.GET.get('city')
-
-    if blood_group:
-        donors = donors.filter(blood_group=blood_group)
-    if city:
-        donors = donors.filter(city=city)
-
     blood_groups = Donor.objects.values('blood_group').distinct()
-    cities = Donor.objects.values('city').distinct()
-
-    context = {
+    blood_group_filter = request.GET.get('blood_group', '')
+    donors = Donor.objects.all()
+    if blood_group_filter:
+        donors = donors.filter(blood_group=blood_group_filter)
+    
+    return render(request, 'donor_list.html', {
         'donors': donors,
-        'blood_groups': blood_groups,
-        'cities': cities,
-    }
-    return render(request, 'donor_list.html', context)
+        'blood_groups': blood_groups
+    })
 def view_donor(request):
     donors = Donor.objects.all()
 
