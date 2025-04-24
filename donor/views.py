@@ -12,7 +12,7 @@ def add_donor(request):
         form = DonorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('donor_list')
+            return redirect('view_donor')
     else:
         form = DonorForm()
     return render(request, 'add_donor.html', {'form': form})
