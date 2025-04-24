@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'blood_donor.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://barani:2PNRn5faqSs3veBtSTrV02heKrlzM1Yi@dpg-d04s6b3e5dus738l1lag-a/blood_donor_db'
+        default='postgresql://barani:2PNRn5faqSs3veBtSTrV02heKrlzM1Yi@dpg-d04s6b3e5dus738l1lag-a/blood_donor_db',
         conn_max_age=600
     )
 }
