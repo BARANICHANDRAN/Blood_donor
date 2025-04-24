@@ -8,20 +8,7 @@
 {% else %}
 <form method="post">
     {% csrf_token %}
-    <input type="hidden" name="contact" value="{{ donor.contact }}">
-    
-    <label>Name:</label>
-    <input type="text" name="name" value="{{ donor.name }}"><br>
-
-    <label>Blood group:</label>
-    <input type="text" name="blood_group" value="{{ donor.blood_group }}"><br>
-
-    <label>City:</label>
-    <input type="text" name="city" value="{{ donor.city }}"><br>
-
-    <label>Last donated:</label>
-    <input type="date" name="last_donated" value="{{ donor.last_donated|date:'Y-m-d' }}"><br>
-
-    <button type="submit" name="update">Update Donor</button>
+    {{ form.as_p }} 
+    <button type="submit">Update Donor</button>
 </form>
 {% endif %}
