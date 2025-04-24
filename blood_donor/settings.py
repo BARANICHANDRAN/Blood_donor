@@ -77,12 +77,11 @@ WSGI_APPLICATION = 'blood_donor.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://barani:2PNRn5faqSs3veBtSTrV02heKrlzM1Yi@dpg-d04s6b3e5dus738l1lag-a.oregon-postgres.render.com/blood_donor_db',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
