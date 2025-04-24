@@ -57,16 +57,28 @@ def view_donor(request):
         'cities': cities,
     }
     return render(request, 'view_donor.html', context)
-def edit_donor(request, contact):
-    donor = get_object_or_404(Donor, contact=contact)  
-
-    if request.method == 'POST':
-        form = DonorForm(request.POST, instance=donor)
-        if form.is_valid():
-            form.save()  
-            return redirect('donor_list')  
+def edit_donor(request):
+    if request.method == "POST":
+        if "update" in request.POST:
+            contact = request.POST.get("contact")
+            try:
+                donor = Donor.objects.get(contact=contact)
+                donor.name = request.POST.get("name")
+                donor.blood_group = request.POST.get("blood_group")
+                donor.city = request.POST.get("city")
+                donor.last_donated = request.POST.get("last_donated") or None
+                donor.save()
+                messages.success(request, "Donor updated successfully.")
+                return redirect('edit_donor')
+            except Donor.DoesNotExist:
+                messages.error(request, "Donor not found.")
         else:
-            return render(request, 'edit_donor.html', {'form': form, 'donor': donor})  
-    else:
-        form = DonorForm(instance=donor)  
-        return render(request, 'edit_donor.html', {'form': form, 'donor': donor})
+            contact = request.POST.get("contact")
+            try:
+                donor = Donor.objects.get(contact=contact)
+                return render(request, 'edit_donor.html', {'donor': donor})
+            except Donor.DoesNotExist:
+                messages.error(request, "Donor not found.")
+                return render(request, 'edit_donor.html')
+    
+    return render(request, 'edit_donor.html')
