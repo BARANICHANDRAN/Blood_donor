@@ -48,3 +48,5 @@ class Donor(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.blood_group})"
+    class Meta:
+        db_table = 'donor_donor' 
