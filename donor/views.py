@@ -57,7 +57,7 @@ def view_donor(request):
         'cities': cities,
     }
     return render(request, 'view_donor.html', context)
-def edit_donor(request):
+def edit_donor(request,contact):
     if request.method == "POST":
         if "update" in request.POST:
             contact = request.POST.get("contact")
