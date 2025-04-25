@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donor List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 32px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .filter-section {
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+        .donor-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .donor-table th,
+        .donor-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .donor-table th {
+            background-color: #ff5d7f;
+            color: white;
+        }
+        .donor-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .action-btn {
+            background-color: #ff5d7f;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14.4px;
+            margin-right: 8px;
+        }
+        .action-btn:hover {
+            background-color: #ff9eb2;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .nav-links {
+            margin-bottom: 32px;
+        }
+        .nav-links a {
+            color: #ff5d7f;
+            text-decoration: none;
+            margin-right: 16px;
+        }
+        .nav-links a:hover {
+            color: #ff9eb2;
+        }
+        .add-btn {
+            background-color: #ff5d7f;
+            color: white !important;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .add-btn:hover {
+            background-color: #ff9eb2;
+            color: white !important;
+        }
+        .welcome-message {
+            margin-bottom: 32px;
+            color: #333;
+        }
+        .filter-btn {
+            background-color: #ff5d7f;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+        .filter-btn:hover {
+            background-color: #ff9eb2;
+        }
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 16px;
+            margin-bottom: 16px;
+        }
+        label {
+            margin-right: 8px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-message">
+            <h1>Welcome, {{ user.username }}!</h1>
+        </div>
+
+        <div class="nav-links">
+            <a href="{% url 'add_donor' %}" class="add-btn">Add New Donor</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+
+        <div class="filter-section">
+            <form method="get">
+                <div style="margin-bottom: 16px;">
+                    <label for="blood_group">Search by Blood Group:</label>
+                    <select name="blood_group" id="blood_group">
+                        <option value="">--Select--</option>
+                        {% for group in blood_groups %}
+                            <option value="{{ group.blood_group }}" {% if request.GET.blood_group == group.blood_group %}selected{% endif %}>
+                                {{ group.blood_group }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label for="city">Search by City:</label>
+                    <select name="city" id="city">
+                        <option value="">--Select--</option>
+                        {% for city in cities %}
+                            <option value="{{ city.city }}" {% if request.GET.city == city.city %}selected{% endif %}>
+                                {{ city.city }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="filter-btn">Filter</button>
+                <a href="{% url 'donor_list' %}">
+                    <button type="button" class="filter-btn">Reset Filters</button>
+                </a>
+            </form>
+        </div>
+
+        <table class="donor-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>City</th>
+                    <th>Contact</th>
+                    <th>Last Donated</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donor in donors %}
+                <tr>
+                    <td>{{ donor.name }}</td>
+                    <td>{{ donor.blood_group }}</td>
+                    <td>{{ donor.city }}</td>
+                    <td>{{ donor.contact }}</td>
+                    <td>{{ donor.last_donated }}</td>
+                    <td>
+                        <a href="{% url 'edit_donor' donor.contact %}" class="action-btn">Edit</a>
+                        <a href="{% url 'delete_donor' donor.contact %}" class="action-btn delete-btn">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No donors found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

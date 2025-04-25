@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Donor</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Edit Donor Details</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.name == 'contact' %}
+                    <input type="text" name="{{ field.name }}" value="{{ field.value }}" id="{{ field.id_for_label }}" readonly>
+                {% else %}
+                    {{ field }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit">Update Donor</button>
+    </form>
+
+    {% if form.errors %}
+        <div style="color: red;">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'donor_list' %}">Back to Donor List</a>
+</body>
+</html>

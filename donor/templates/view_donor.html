@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Donors</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .filter-section {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .donor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .donor-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .donor-card h3 {
+            color: #ff5d7f;
+            margin-bottom: 0.5rem;
+        }
+        .donor-info {
+            margin-bottom: 0.5rem;
+        }
+        .nav-links {
+            margin-top: 2rem;
+        }
+        .nav-links a {
+            color: #ff5d7f;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+        .nav-links a:hover {
+            color: #ff9eb2;
+        }
+        .contact-btn {
+            background-color: #ff5d7f;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .contact-btn:hover {
+            background-color: #ff9eb2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blood Donors</h1>
+
+        <div class="filter-section">
+            <form method="get">
+                <div style="margin-bottom: 1rem;">
+                    <label for="blood_group">Search by Blood Group:</label>
+                    <select name="blood_group" id="blood_group">
+                        <option value="">--Select--</option>
+                        {% for group in blood_groups %}
+                            <option value="{{ group.blood_group }}" {% if request.GET.blood_group == group.blood_group %}selected{% endif %}>
+                                {{ group.blood_group }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label for="city">Search by City:</label>
+                    <select name="city" id="city">
+                        <option value="">--Select--</option>
+                        {% for city in cities %}
+                            <option value="{{ city.city }}" {% if request.GET.city == city.city %}selected{% endif %}>
+                                {{ city.city }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="contact-btn">Filter</button>
+                <a href="{% url 'view_donor' %}">
+                    <button type="button" class="contact-btn">Reset Filters</button>
+                </a>
+            </form>
+        </div>
+
+        <a href="tel:+9196295114" class="contact-btn">Contact Blood Bank</a>
+        <a href="/" class="contact-btn">Home</a>
+        <a href="/add/" class="contact-btn">Add Donor</a>
+        
+
+        <div class="donor-grid">
+            {% for donor in donors %}
+                <div class="donor-card">
+                    <h3>{{ donor.name }}</h3>
+                    <div class="donor-info">
+                        <strong>Blood Group:</strong> {{ donor.blood_group }}
+                    </div>
+                    <div class="donor-info">
+                        <strong>City:</strong> {{ donor.city }}
+                    </div>
+                    <div class="donor-info">
+                        <strong>Contact:</strong> {{ donor.contact }}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No donors found.</p>
+            {% endfor %}
+        </div>
+
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Blood Donor Portal</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ff9eb2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #ff5d7f;
+        }
+        .btn-container {
+            margin-top: 30px;
+        }
+        .btn {
+            background-color: #ff5d7f;
+            color: white;
+            padding: 15px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #ff9eb2;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <img src="{% get_media_prefix %}logo.png" alt="Logo" height="100px">
+
+
+    <h1>Welcome to the Blood Donor Portal</h1>
+    <div class="btn-container">
+        <a href="{% url 'login' %}" class="btn">Login</a>
+        <a href="{% url 'view_donor' %}" class="btn">View Donor</a>
+        <a href="{% url 'add_donor' %}" class="btn">Add Donor</a>
+    </div>
+</body>
+</html>
