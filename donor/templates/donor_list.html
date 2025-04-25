@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donor List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Blood Donors</h1>
+
+    <form method="get">
+        <label for="blood_group">Search by Blood Group:</label>
+        <select name="blood_group" id="blood_group" >
+            <option value="">--Select--</option>
+            {% for group in blood_groups %}
+                <option value="{{ group.blood_group }}" {% if request.GET.blood_group == group.blood_group %}selected{% endif %}>
+                    {{ group.blood_group }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="city">Search by City:</label>
+        <select name="city" id="city">
+            <option value="">--Select--</option>
+            {% for city in cities %}
+                <option value="{{ city.city }}" {% if request.GET.city == city.city %}selected{% endif %}>
+                    {{ city.city }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+        <a href="{% url 'donor_list' %}">
+            <button type="button">Reset Filters</button>
+        </a>
+        <a href="/"><button type="button">Home</button></a>
+        <a href="/add/"><button type="button">Add Donor</button></a>
+    </form>
+
+    <ul>
+        {% for donor in donors %}
+        <li>
+            {{ donor.name }} - {{ donor.blood_group }} - {{ donor.city }} - {{ donor.contact }}
+            {% if donor.contact %}
+                <a href="{% url 'edit_donor' donor.contact %}">Edit</a>
+            {% endif %}
+        </li>
+        {% empty %}
+            <li>No donors found.</li>
+        {% endfor %}
+    </ul>
+    
+    
+</body>
+</html>
