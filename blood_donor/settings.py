@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','blood-donor1.onrender.com','blood-donor.up.railway.app']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://blood-donor.up.railway.app/',
+]
 
 # Application definition
 
